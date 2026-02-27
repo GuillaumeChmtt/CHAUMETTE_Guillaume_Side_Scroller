@@ -2,15 +2,60 @@ using UnityEngine;
 
 public class CharaController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [Header("Move variables")]
+    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float acceleration = 20f;
+    [SerializeField] float deceleration = 2.0f;
+
+    [Header("Gravity/Jump")]
+    [SerializeField] float gravity = -10f;
+    [SerializeField] float jumpForce = 1.5f;
+
+    Rigidbody2D rb;
+    float inputX;
+    public LayerMask groundLayer;
+
+     void Awake()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+     void Update()
     {
+  
+        inputX = Input.GetAxisRaw("Horizontal");
+
+        bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.6f, groundLayer);
+
+        if (Input.GetButtonDown("Jump") && isGrounded) rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         
+
+
+        /*
+        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        input.Normalize();
+        */
+    }
+
+     void FixedUpdate()
+    {
+        var v = rb.linearVelocity;
+        //v.x = inputX * moveSpeed;
+
+        if (inputX != 0)
+        {
+            // Accélération 
+            float maxspeed = inputX * moveSpeed;
+            v.x = Mathf.MoveTowards(v.x, maxspeed, acceleration * Time.fixedDeltaTime);
+        }
+        else
+        {
+            // Décélération 
+            v.x = Mathf.MoveTowards(v.x, 0f, deceleration * Time.fixedDeltaTime);
+        }
+
+        rb.linearVelocity = v;
+
+        //rb.linearVelocity = input * moveSpeed;
     }
 }

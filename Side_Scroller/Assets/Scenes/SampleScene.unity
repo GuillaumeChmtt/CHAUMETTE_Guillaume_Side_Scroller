@@ -150,7 +150,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &398788626
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -209,6 +209,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ee4817b9f5d63e4686317cd4e94cc7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharaController
+  moveSpeed: 14
+  acceleration: 30
+  deceleration: 2
+  gravity: -10
+  jumpForce: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +320,7 @@ GameObject:
   - component: {fileID: 1169606846}
   - component: {fileID: 1169606845}
   - component: {fileID: 1169606844}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
