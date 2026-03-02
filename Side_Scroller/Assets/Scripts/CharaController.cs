@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class CharaController : MonoBehaviour
 {
@@ -8,16 +8,15 @@ public class CharaController : MonoBehaviour
     [SerializeField] float deceleration = 2.0f;
 
     [Header("Rotation")]
-    [SerializeField] float rotationForce = 10f;
+    [SerializeField] float airRotationForce = 5f;
 
-    [Header("Gravity/Jump")]
-    [SerializeField] float gravity = -10f;
+    [Header("Jump")]
     [SerializeField] float jumpForce = 1.5f;
 
     Rigidbody2D rb;
     float inputX;
     public LayerMask groundLayer;
-    float inputRotation;
+    bool isGrounded = false;
 
      void Awake()
     {
@@ -29,48 +28,44 @@ public class CharaController : MonoBehaviour
   
         inputX = Input.GetAxisRaw("Horizontal");
 
-        inputRotation = Input.GetAxisRaw("Vertical");
-
-        bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.6f, groundLayer);
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.7f, groundLayer);
 
         if (Input.GetButtonDown("Jump") && isGrounded) rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         
-
-
-        /*
-        input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        input.Normalize();
-        */
     }
 
-     void FixedUpdate()
+     void LateUpdate()
     {
         var v = rb.linearVelocity;
         //v.x = inputX * moveSpeed;
 
         if (inputX != 0)
         {
-            // Accélération 
+            // AccÃ©lÃ©ration 
             float maxspeed = inputX * moveSpeed;
             v.x = Mathf.MoveTowards(v.x, maxspeed, acceleration * Time.fixedDeltaTime);
         }
         else
         {
-            // Décélération 
+            // DÃ©cÃ©lÃ©ration 
             v.x = Mathf.MoveTowards(v.x, 0f, deceleration * Time.fixedDeltaTime);
         }
 
         rb.linearVelocity = v;
 
-        bool isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.6f, groundLayer);
-        if (!isGrounded && inputRotation != 0)
-        {
-            rb.AddTorque(inputRotation * rotationForce);
-        }
 
-        //quand on est dans les airs on ne peut plus accélérer (physique réelle pour une voiture)
-        if (isGrounded == false) acceleration = 0f;
+        // ROTATIONS
+        if (!isGrounded)
+        {
+            if (Input.GetKey(KeyCode.A))
+                rb.MoveRotation(rb.rotation + airRotationForce);
+
+            if (Input.GetKey(KeyCode.D))
+                rb.MoveRotation(rb.rotation - airRotationForce);
+        }
+        
+    }
 
         //rb.linearVelocity = input * moveSpeed;
-    }
+    
 }
