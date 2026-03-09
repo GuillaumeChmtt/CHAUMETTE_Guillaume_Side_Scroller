@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 public class CharaController : MonoBehaviour
 {
     [Header("Move variables")]
-    [SerializeField] float moveSpeed = 5f;
+    [SerializeField] float moveSpeed = 25f;
     [SerializeField] float acceleration = 20f;
     [SerializeField] float deceleration = 2.0f;
 
@@ -28,7 +29,7 @@ public class CharaController : MonoBehaviour
   
         inputX = Input.GetAxisRaw("Horizontal");
 
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 0.7f, groundLayer);
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
 
         if (Input.GetButtonDown("Jump") && isGrounded) rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         
@@ -38,6 +39,9 @@ public class CharaController : MonoBehaviour
     {
         var v = rb.linearVelocity;
         //v.x = inputX * moveSpeed;
+
+        // Ne pas accélérer dans les airs
+        if (!isGrounded) inputX = 0f;
 
         if (inputX != 0)
         {
@@ -54,7 +58,7 @@ public class CharaController : MonoBehaviour
         rb.linearVelocity = v;
 
 
-        // ROTATIONS
+        // Rotation vehicule
         if (!isGrounded)
         {
             if (Input.GetKey(KeyCode.A))
@@ -63,9 +67,14 @@ public class CharaController : MonoBehaviour
             if (Input.GetKey(KeyCode.D))
                 rb.MoveRotation(rb.rotation - airRotationForce);
         }
-        
+
+
+
+        if (isGrounded) Debug.Log("La voiture touche le sol");    
     }
 
+
+        
         //rb.linearVelocity = input * moveSpeed;
     
 }
