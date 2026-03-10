@@ -17,9 +17,10 @@ public class CharaController : MonoBehaviour
     Rigidbody2D rb;
     float inputX;
     public LayerMask groundLayer;
-    bool isGrounded = false;
+    bool isGroundedFront = false;
+    bool isGroundedBack = false;
 
-     void Awake()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
     }
@@ -29,9 +30,13 @@ public class CharaController : MonoBehaviour
   
         inputX = Input.GetAxisRaw("Horizontal");
 
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
+        isGroundedFront = Physics2D.Raycast(new Vector3(0.5f, 0f, 0f), Vector2.down, 1f, groundLayer);
 
-        if (Input.GetButtonDown("Jump") && isGrounded) rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        isGroundedBack = Physics2D.Raycast(new Vector3(-0.5f,0f,0f), Vector2.down, 1f, groundLayer);
+
+
+
+        if (Input.GetButtonDown("Jump") & isGroundedBack) rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         
     }
 
@@ -41,7 +46,7 @@ public class CharaController : MonoBehaviour
         //v.x = inputX * moveSpeed;
 
         // Ne pas accélérer dans les airs
-        if (!isGrounded) inputX = 0f;
+        if (!isGroundedBack & !isGroundedFront) inputX = 0f;
 
         if (inputX != 0)
         {
@@ -59,7 +64,7 @@ public class CharaController : MonoBehaviour
 
 
         // Rotation vehicule
-        if (!isGrounded)
+        if (!isGroundedBack & !isGroundedFront)
         {
             if (Input.GetKey(KeyCode.A))
                 rb.MoveRotation(rb.rotation + airRotationForce);
@@ -70,7 +75,7 @@ public class CharaController : MonoBehaviour
 
 
 
-        if (isGrounded) Debug.Log("La voiture touche le sol");    
+        if (isGroundedBack & isGroundedFront) Debug.Log("La voiture touche le sol");    
     }
 
 

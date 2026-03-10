@@ -1,7 +1,6 @@
 using UnityEngine;
 
 [System.Serializable]
-
 public class ParallaxLayer
 {
     public float speedX = 0.5f;
