@@ -21,14 +21,19 @@ public class CharaController : MonoBehaviour
     bool isGroundedFront = false;
     bool isGroundedBack = false;
 
+    [Header("Raycasts")]
     public Vector2 frontOffset = new Vector2(0.38f, -0.5f);
     public Vector2 backOffset = new Vector2(-0.38f, -0.5f);
-    public float groundCheckDistanceFront = 0.5f;
-    public float groundCheckDistanceBack = 0.5f;
+    public float groundCheckDistanceFront = 1.2f;
+    public float groundCheckDistanceBack = 1.2f;
+
+    [Header("Nitro")]
+    [SerializeField] NitroSystem nitroSystem;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        nitroSystem = GetComponent<NitroSystem>();
     }
 
     void Update()
@@ -38,14 +43,15 @@ public class CharaController : MonoBehaviour
         // Raycast suivent la rotation
         Vector3 frontOrigin = transform.TransformPoint(frontOffset);
         Vector3 backOrigin = transform.TransformPoint(backOffset);
-        Vector3 downDirection = -transform.up; 
+        Vector3 downDirectionBack = new Vector3(-0.5f, -0.5f, 0f);
+        Vector3 downDirectionFront = new Vector3(0.5f, -0.5f, 0f);
 
-        Color color = Color.bisque;
-        Debug.DrawRay(backOrigin, downDirection * groundCheckDistanceBack, color);
-        Debug.DrawRay(frontOrigin, downDirection * groundCheckDistanceFront, color);
+        Color color = Color.blueViolet;
+        Debug.DrawRay(backOrigin, downDirectionBack * groundCheckDistanceBack, color);
+        Debug.DrawRay(frontOrigin, downDirectionFront * groundCheckDistanceFront, color);
 
-        RaycastHit2D hitFront = Physics2D.Raycast(frontOrigin, downDirection, groundCheckDistanceFront, groundLayer);
-        RaycastHit2D hitBack = Physics2D.Raycast(backOrigin, downDirection, groundCheckDistanceBack, groundLayer);
+        RaycastHit2D hitFront = Physics2D.Raycast(frontOrigin, downDirectionFront, groundCheckDistanceFront, groundLayer);
+        RaycastHit2D hitBack = Physics2D.Raycast(backOrigin, downDirectionBack, groundCheckDistanceBack, groundLayer);
 
         isGroundedFront = hitFront.collider != null;
         isGroundedBack = hitBack.collider != null;
@@ -70,21 +76,19 @@ public class CharaController : MonoBehaviour
 
         if (inputX != 0)
         {
-            // Accélération 
-            float maxspeed = inputX * moveSpeed;
-            v.x = Mathf.MoveTowards(v.x, maxspeed, acceleration * Time.fixedDeltaTime);
-        }
-        else
-        {
-            // Décélération 
-            v.x = Mathf.MoveTowards(v.x, 0f, deceleration * Time.fixedDeltaTime);
+            float currentMaxSpeed = moveSpeed + (nitroSystem != null ? nitroSystem.SpeedBonus : 0f);
+            float currentAcceleration = nitroSystem != null && nitroSystem.SpeedBonus > 0
+                ? acceleration * 3f  
+                : acceleration;
+            float maxspeed = inputX * currentMaxSpeed;
+            v.x = Mathf.MoveTowards(v.x, maxspeed, currentAcceleration * Time.fixedDeltaTime);
         }
 
         rb.linearVelocity = v;
-
+         
 
         // Rotation vehicule
-        if (!isGroundedFront)
+        if (!isGroundedBack || !isGroundedFront || isGroundedBack || isGroundedFront)
         {
             if (Input.GetKey(KeyCode.A))
                 rb.MoveRotation(rb.rotation + airRotationForce);
