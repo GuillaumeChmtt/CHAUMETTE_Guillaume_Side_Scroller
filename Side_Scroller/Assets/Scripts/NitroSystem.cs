@@ -10,7 +10,7 @@ public class NitroSystem : MonoBehaviour
     Image nitroBar;
     float nitro = 1f;
 
-    public float SpeedBonus => Input.GetKey(KeyCode.LeftShift) && nitro > 0 ? nitroSpeedBonus : 0f;
+    public float SpeedBonus => Input.GetKey(KeyCode.LeftShift) && nitro >= 0 ? nitroSpeedBonus : 0f;
 
     void Start()
     {
