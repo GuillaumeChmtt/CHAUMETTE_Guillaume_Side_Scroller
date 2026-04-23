@@ -23,7 +23,7 @@ public class NitroSystem : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift) && nitro > 0)
             nitro -= Time.deltaTime * 0.3f;
         else
-            nitro += Time.deltaTime * 0.1f;
+            nitro += Time.deltaTime * 0.1f; // à enlevé quand le nitro sera récupérable en ramassant 
 
         nitro = Mathf.Clamp01(nitro);
 
