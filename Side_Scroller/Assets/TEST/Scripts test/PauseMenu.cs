@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -22,5 +23,10 @@ public class PauseMenu : MonoBehaviour
     public void MainMenuButton()
     { 
         UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
+    }
+
+    public void RestartButton()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
