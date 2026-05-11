@@ -11,6 +11,8 @@ public class FinishZone : MonoBehaviour
     [SerializeField] private Timer _timer;
     [SerializeField] private ScoreboardManager _scoreboard;
 
+    private bool _finished = false;
+
     private void Start()
     {
         _finishCanvas.SetActive(false);
@@ -18,24 +20,23 @@ public class FinishZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (_finished) return;
+
         if ((_carLayer.value & (1 << other.gameObject.layer)) != 0)
         {
+            _finished = true;
             StartCoroutine(FinishSequence());
         }
     }
 
     private IEnumerator FinishSequence()
     {
-        Debug.Log("FinishSequence démarré");
         _camera.StopFollowing();
         _timer.StopTimer();
-        Debug.Log("Timer arrêté");
         yield return new WaitForSeconds(_delayBeforeMenu);
-        Debug.Log("Délai terminé, affichage scoreboard");
         _scoreboard.ShowScoreboard();
         _finishCanvas.SetActive(true);
         Time.timeScale = 0f;
-        Debug.Log("TimeScale à 0");
     }
 
     public void Restart()
