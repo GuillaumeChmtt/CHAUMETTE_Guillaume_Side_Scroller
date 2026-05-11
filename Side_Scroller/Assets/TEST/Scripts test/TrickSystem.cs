@@ -30,6 +30,8 @@ public class TrickSystem : MonoBehaviour
     private float _wheelieScoreTimer = 0f;
     private float _frontWheelieScoreTimer = 0f;
 
+    public int Score => _score;
+
     private bool FrontGrounded =>
         Physics2D.OverlapCircle(_frontTire.position, _groundCheckRadius, _finalMask) != null;
 
