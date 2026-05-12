@@ -8,7 +8,7 @@ public class CarSelector : MonoBehaviour
     [SerializeField] private Image _carImage;
     [SerializeField] private Sprite[] _carSprites; // 3 sprites : voiture 1, voiture 2, coming soon
 
-    [Header("Boutons")]
+    [Header("Buttons")]
     [SerializeField] private Button _leftArrow;
     [SerializeField] private Button _rightArrow;
     [SerializeField] private Button _selectButton;
@@ -59,7 +59,7 @@ public class CarSelector : MonoBehaviour
         }
         else
         {
-            Debug.Log("Pas assez de coins !");
+            Debug.Log("Need more coins !");
         }
     }
 
@@ -78,8 +78,8 @@ public class CarSelector : MonoBehaviour
         _carImage.sprite = _carSprites[_currentIndex];
 
         // Flèches
-        _leftArrow.interactable = _currentIndex > 0;
-        _rightArrow.interactable = _currentIndex < _totalCars - 1;
+        _leftArrow.gameObject.SetActive(_currentIndex > 0);
+        _rightArrow.gameObject.SetActive(_currentIndex < _totalCars - 1);
 
         // Coins
         _coinsText.text = "Coins : " + CoinManager.Instance.TotalCoins;
@@ -95,9 +95,10 @@ public class CarSelector : MonoBehaviour
         // Texte prix
         if (!unlocked && !isComingSoon)
             _buyPriceText.text = _carPrices[_currentIndex] + " coins";
+            _buyPriceText.gameObject.SetActive(!unlocked && !isComingSoon);
 
         // Highlight si sélectionnée
         _selectButton.interactable = !isSelected;
-        _selectButton.GetComponentInChildren<TextMeshProUGUI>().text = isSelected ? "Sélectionnée" : "Sélectionner";
+        _selectButton.GetComponentInChildren<TextMeshProUGUI>().text = isSelected ? "Selected" : "Select";
     }
 }

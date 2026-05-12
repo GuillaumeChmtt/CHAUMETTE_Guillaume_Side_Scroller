@@ -54,4 +54,9 @@ public class CoinManager : MonoBehaviour
         if (_coinText != null)
             _coinText.text = "Coins : " + (TotalCoins + _sessionCoins);
     }
+
+    public void RefreshUI()
+    {
+        UpdateUI();
+    }
 }
