@@ -16247,7 +16247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a72db42a0c8829c4d8c32f9dd87af24a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreboardManager
-  _trickSystem: {fileID: 0}
+  _trickSystem: {fileID: 721466845}
   _timer: {fileID: 1275334339}
   _bestScoreText: {fileID: 113660756}
   _bestTimeText: {fileID: 1534953576}
