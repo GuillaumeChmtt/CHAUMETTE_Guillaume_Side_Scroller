@@ -20,4 +20,9 @@ public class LevelProgressBar : MonoBehaviour
         float progress = Mathf.InverseLerp(_levelStart, _levelEnd, _car.position.x);
         _carIcon.anchoredPosition = new Vector2(progress * _barWidth, _carIcon.anchoredPosition.y);
     }
+
+    public void SetCar(Transform car)
+    {
+        _car = car;
+    }
 }

@@ -33,6 +33,7 @@ public class FinishZone : MonoBehaviour
     {
         _camera.StopFollowing();
         _timer.StopTimer();
+        CoinManager.Instance.SaveSessionCoins();
         yield return new WaitForSeconds(_delayBeforeMenu);
         _scoreboard.ShowScoreboard();
         _finishCanvas.SetActive(true);

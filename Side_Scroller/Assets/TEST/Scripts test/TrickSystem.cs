@@ -161,4 +161,11 @@ public class TrickSystem : MonoBehaviour
         Gizmos.DrawWireSphere(_frontTire.position, _groundCheckRadius);
         Gizmos.DrawWireSphere(_backTire.position, _groundCheckRadius);
     }
+
+    public void SetCar(Rigidbody2D carRB, Transform frontTire, Transform backTire)
+    {
+        _carRB = carRB;
+        _frontTire = frontTire;
+        _backTire = backTire;
+    }
 }

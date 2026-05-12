@@ -26,7 +26,6 @@ public class ParallaxController : MonoBehaviour
 
         layers = new ParallaxLayer[count];
 
-        Debug.Log(count);
 
         for (int i = 0; i < count; i++)
         {

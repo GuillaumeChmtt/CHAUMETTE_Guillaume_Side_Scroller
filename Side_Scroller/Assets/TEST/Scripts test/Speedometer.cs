@@ -14,4 +14,9 @@ public class Speedometer : MonoBehaviour
         float angle = Mathf.Lerp(_minAngle, _maxAngle, speed / _maxSpeed);
         _needle.localEulerAngles = new Vector3(0, 0, angle);
     }
+
+    public void SetCar(Rigidbody2D carRB)
+    {
+        _carRB = carRB;
+    }
 }

@@ -6,7 +6,11 @@ public class NitroPickup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        NitroSystem nitro = other.GetComponent<NitroSystem>();
+        if (other.gameObject.layer != LayerMask.NameToLayer("Car")) return;
+
+        NitroSystem nitro = other.GetComponentInParent<NitroSystem>();
+        if (nitro == null)
+            nitro = FindObjectOfType<NitroSystem>();
         if (nitro == null) return;
 
         nitro.AddNitro(_nitroAmount);
