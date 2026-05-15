@@ -7,7 +7,7 @@ public class CoinManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _coinText;
 
-    private int _sessionCoins = 0; // Coins ramassés pendant la run
+    private int _sessionCoins = 0;
     private const string SaveKey = "TotalCoins";
 
     public int TotalCoins => PlayerPrefs.GetInt(SaveKey, 0);

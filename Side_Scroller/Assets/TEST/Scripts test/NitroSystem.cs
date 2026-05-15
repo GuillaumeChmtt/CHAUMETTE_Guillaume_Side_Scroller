@@ -13,7 +13,7 @@ public class NitroSystem : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("NitroSystem créé sur : " + gameObject.name + " | Path : " + transform.parent?.name);
+        Debug.Log("NitroSystem est sur : " + gameObject.name + " | venant de : " + transform.parent?.name);
     }
     private void Update()
     {
@@ -21,7 +21,7 @@ public class NitroSystem : MonoBehaviour
         if (_nitroSlider != null)
         {
             _nitroSlider.value = _nitro / 100f;
-            Debug.Log("Slider value : " + _nitroSlider.value);
+            Debug.Log("Valeur du slider : " + _nitroSlider.value);
             _nitroSlider.fillRect.gameObject.SetActive(_nitro > 0);
         }
 

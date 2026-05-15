@@ -17,14 +17,14 @@ public class CarSpawner : MonoBehaviour
         index = Mathf.Clamp(index, 0, _carPrefabs.Length - 1);
         GameObject car = Instantiate(_carPrefabs[index], _spawnPoint.position, Quaternion.identity);
 
-        Debug.Log("Voiture spawnée : " + car.name);
+        Debug.Log("voiture qui a spawn : " + car.name);
 
         Rigidbody2D carRB = car.GetComponent<Rigidbody2D>();
         Transform frontTire = GetTireTransform(car, "FRONTTire");
         Transform backTire = GetTireTransform(car, "BACKTire");
 
-        Debug.Log("FrontTire trouvé : " + (frontTire != null ? frontTire.name : "NULL"));
-        Debug.Log("BackTire trouvé : " + (backTire != null ? backTire.name : "NULL"));
+        Debug.Log("FrontTire trouvé : " + (frontTire != null ? frontTire.name : "noooonn"));
+        Debug.Log("BackTire trouvé : " + (backTire != null ? backTire.name : "nooooon"));
 
         _camera.target = car.transform;
         _trickSystem.SetCar(carRB, frontTire, backTire);
